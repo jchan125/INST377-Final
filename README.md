@@ -1,1 +1,4 @@
-# final
+# Final Project for INST377
+
+Hi, this is Janet Chan and my project uses Prince George’s County Open Data, specifically the Finance portion for the year 2022. I chose this data because I’m really curious as to what resources have been allocated to what department in Prince George’s County. I’m also very interested in seeing what kinds of departments get more money than others and interpreting that data as to why they might
+get more money. The information problem that I’m hoping to examine is which department in Prince George’s County needs more resources or needs more attention in order to improve.
