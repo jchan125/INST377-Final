@@ -1,46 +1,61 @@
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Janet Chan's Final Project: PG County's Fianaces</title>
 
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
-      integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
-      crossorigin=""
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Janet Chan's Final Project: PG County's Finances</title>
 
-    <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+    integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
 
-    <script
-      src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
-      integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
-      crossorigin=""
-    ></script>
-  </head>
-  <body>
-    <div class = "wrapper">
-        <header class="header"><h1>Janet Chan Final Project: PG County's Fianaces</h1></header>
-        <div class="container">
-            <div class="left_section box">
-                <h3>Finances or a Map</h3>
-                <ol class="box">
-                    <li>Water</li>
-                    <li>Electricity</li>
-                </ol>
-            </div>
-            <div class ="right_section box">
-                <h3>Charts of Finance</h3>
-            </div>
-            <div class="right_section box">
-                A list of the places that receive funding
-            </div>
+  <link rel="stylesheet" href="style.css" />
+
+  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+    integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+
+</head>
+
+<body>
+  <div class="wrapper">
+    <header class="header">
+      <h1>Janet Chan Final Project: PG County's Finances</h1>
+    </header>
+    <div class="container">
+      <div class="left_section box">
+        <h3>Generate List of Departments</h3>
+        <form action="https://data.princegeorgescountymd.gov/resource/jh2p-ym6a.json" class="box main_form">
+          <button type="button" id="data_load">Load Data</button>
+          <button type="button" id="data_clear">Clear Data</button>
+          <div>
+            <label for="resto">Department Name</label>
+            <input type="text" id="resto" name="resto" />
+          </div>
+          <div class="buttons">
+            <button type="button" id="generate">Generate List</button>
+          </div>
+        </form>
+      </div>
+      <div class="right_section box">
+        <h3>Map of Departments</h3>
+        <div id="map" class="box"></div>
+        <div class="box">
+          <ol id="resturant_list">
+            A list of departments
+          </ol>
+          <div class="lds-ellipsis" id="data_load_animation"><div></div><div></div><div></div><div></div></div>
+          </div>
+          <div class="right_section box">
+            A list of the places that receive funding
+          </div>
         </div>
-        <footer class="footer" r>My github: 
-            <a href="http://github.com/jchan125">jchan125</a> </footer>
-    </div>
-    <script src="script.js></script>
-  </body>
-</html>
+        </div>
+        </div>
+        <footer class="footer" r>
+          jchan125
+          <a href="http://github.com/jchan125">jchan125</a>
+        </footer>
+      </div>
+      <script src="script.js"></script>
+    </body>
+  </html>
