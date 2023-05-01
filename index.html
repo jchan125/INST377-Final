@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Janet Chan's Final Project: PG County's Finances</title>
+  <title>Janet Chan's Final Project: Non-Emergency 311 Service Requests for PG County</title>
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
     integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
@@ -19,16 +19,16 @@
 <body>
   <div class="wrapper">
     <header class="header">
-      <h1>Janet Chan Final Project: PG County's Finances</h1>
+      <h1>Janet Chan Final Project: Non-Emergency 311 Service Requests for PG County</h1>
     </header>
     <div class="container">
       <div class="left_section box">
-        <h3>Generate List of Departments</h3>
-        <form action="https://data.princegeorgescountymd.gov/resource/jh2p-ym6a.json" class="box main_form">
+        <h3>Generate List of Service Requests</h3>
+        <form action="https://data.princegeorgescountymd.gov/resource/8nyi-qgn7.json" class="box main_form">
           <button type="button" id="data_load">Load Data</button>
           <button type="button" id="data_clear">Clear Data</button>
           <div>
-            <label for="resto">Department Name</label>
+            <label for="resto">Service Request Names</label>
             <input type="text" id="resto" name="resto" />
           </div>
           <div class="buttons">
@@ -37,11 +37,11 @@
         </form>
       </div>
       <div class="right_section box">
-        <h3>Map of Departments</h3>
+        <h3>Map of Service Request Locations</h3>
         <div id="map" class="box"></div>
         <div class="box">
           <ol id="restaurant_list">
-            A list of departments
+            A list of service requests
           </ol>
           <div class="lds-ellipsis" id="data_load_animation">
             <div></div>
@@ -50,10 +50,8 @@
             <div></div>
           </div>
         </div>
-        <div class="right_section box">
-          A list of the places that receive funding
-        </div>
         <div class="chart_container">
+          <h3>Chart of number of service requests that are open and closed</h3>
           <canvas id="myChart"></canvas>
         </div>
       </div>
