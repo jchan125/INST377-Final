@@ -9,14 +9,14 @@ function injectHTML(list) {
   const target = document.querySelector("#restaurant_list");
   target.innerHTML = "";
   list.forEach((item) => {
-    const str = `<li>${item.agency}</li>`;
+    const str = `<li>${item.request_name}</li>`;
     target.innerHTML += str;
   });
 }
 
 function filterList(list, query) {
   return list.filter((item) => {
-    const lowerCaseName = item.agency.toLowerCase();
+    const lowerCaseName = item.request_name.toLowerCase();
     const lowerCaseQuery = query.toLowerCase();
     return lowerCaseName.includes(lowerCaseQuery);
   });
@@ -50,15 +50,39 @@ function markerPlace(array, map) {
     }
   });
 
-  array.forEach((item) => {
+  array.forEach((item, index) => {
     console.log("markerPlace", item);
-    const { coordinates } = item.agency;
-
-    L.marker([coordinates[1], coordinates[0]]).addTo(map);
+    //Adds a marker to the map and blindPopup adds a title to it if you were to click on the marker
+    L.marker([item.latitude, item.longitude]).addTo(map).bindPopup(title=item.request_name);
+    
+    //This code shifts the view of the map to the marker position, I did this because some of the request names don't have a location
+    //This will make it easier for people to see which ones do and the positioning
+    if (index === 0) {
+      map.setView([item.latitude, item.longitude], 10);
+    }
   });
 }
 
 function initChart() {
+  // const labels = ["January", "February", "March", "April", "May", "June"];
+
+  // const data = {
+  //   labels: labels,
+  //   datasets: [{
+  //     label: "My first dataset",
+  //     backgroundColor: "rgb(255,99,132)",
+  //     borderColor: "rgb(255,99,132)",
+  //     data: [0, 10, 5, 2, 20, 30, 45],
+  //   }]
+  // };
+
+  // const config = {
+  //   type: "line",
+  //   data: data,
+  //   options: {},
+  // };
+
+  // return new Chart(chart, config);
   const ctx = document.getElementById("myChart");
 
   new Chart(ctx, {
@@ -113,7 +137,7 @@ async function mainEvent() {
     loadAnimation.style.display = "inline-block";
 
     const results = await fetch(
-      "https://data.princegeorgescountymd.gov/resource/jh2p-ym6a.json"
+      "https://data.princegeorgescountymd.gov/resource/8nyi-qgn7.json"
     );
 
     const storedList = await results.json();
