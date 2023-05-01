@@ -9,15 +9,14 @@ function injectHTML(list) {
   const target = document.querySelector("#restaurant_list");
   target.innerHTML = "";
   list.forEach((item) => {
-    const str = `<li>${item.name}</li>`;
+    const str = `<li>${item.agency}</li>`;
     target.innerHTML += str;
   });
 }
 
-/* A quick filter that will return something based on a matching input */
 function filterList(list, query) {
   return list.filter((item) => {
-    const lowerCaseName = item.name.toLowerCase();
+    const lowerCaseName = item.agency.toLowerCase();
     const lowerCaseQuery = query.toLowerCase();
     return lowerCaseName.includes(lowerCaseQuery);
   });
@@ -53,9 +52,34 @@ function markerPlace(array, map) {
 
   array.forEach((item) => {
     console.log("markerPlace", item);
-    const { coordinates } = item.geocoded_column_1;
+    const { coordinates } = item.agency;
 
     L.marker([coordinates[1], coordinates[0]]).addTo(map);
+  });
+}
+
+function initChart() {
+  const ctx = document.getElementById("myChart");
+
+  new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+      datasets: [
+        {
+          label: "# of Votes",
+          data: [12, 19, 3, 5, 2, 3],
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
   });
 }
 
@@ -65,6 +89,7 @@ async function mainEvent() {
   const clearDataButton = document.querySelector("#data_clear");
   const generateListButton = document.querySelector("#generate");
   const textField = document.querySelector("#resto");
+  const chartTarget = document.querySelector("#myChart");
 
   const loadAnimation = document.querySelector("#data_load_animation");
   loadAnimation.style.display = "none";
@@ -73,26 +98,24 @@ async function mainEvent() {
   const carto = initMap();
 
   const storedData = localStorage.getItem("storedData");
+
+  initChart(chartTarget);
+
   let parsedData = JSON.parse(storedData);
   if (parsedData?.length > 0) {
     generateListButton.classList.remove("hidden");
   }
 
-  let currentList = []; // this is "scoped" to the main event function
+  let currentList = [];
 
-  /* We need to listen to an "event" to have something happen in our page - here we're listening for a "submit" */
   loadDataButton.addEventListener("click", async (submitEvent) => {
-    // async has to be declared on every function that needs to "await" something
-    // this is substituting for a "breakpoint" - it prints to the browser to tell us we successfully submitted the form
     console.log("Loading data");
     loadAnimation.style.display = "inline-block";
 
-    // Basic GET request - this replaces the form Action
     const results = await fetch(
       "https://data.princegeorgescountymd.gov/resource/jh2p-ym6a.json"
     );
 
-    // This changes the response from the GET into data we can use - an "object"
     const storedList = await results.json();
     localStorage.setItem("storedData", JSON.stringify(storedList));
     parsedData = storedList;
@@ -128,9 +151,4 @@ async function mainEvent() {
   });
 }
 
-/*
-        This adds an event listener that fires our main event only once our page elements have loaded
-        The use of the async keyword means we can "await" events before continuing in our scripts
-        In this case, we load some data when the form has submitted
-      */
-document.addEventListener("DOMContentLoaded", async () => mainEvent()); // the async keyword means we can make API requests
+document.addEventListener("DOMContentLoaded", async () => mainEvent());
