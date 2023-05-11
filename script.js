@@ -104,6 +104,9 @@ function changeChart(chart, dataObject) {
 }
 
 function shapeDataForLineChart(array) {
+  if (!array) {
+    return {};
+  }
   return array.reduce((collection, item) => {
     if (!collection[item.boroname]) {
       collection[item.boroname] = [item];
@@ -158,12 +161,12 @@ async function mainEvent() {
     const localData = shapeDataForLineChart(filterList(currentList, event.target.value));
     changeChart(myChart, localData);
   });
-
+/*
   clearDataButton.addEventListener("click", (event) => {
     console.log("clear browser data");
     localStorage.clear();
     console.log("localStorage Check", localStorage.getItem("storedData"));
-  });
+  });*/
 }
 
 document.addEventListener("DOMContentLoaded", async () => mainEvent());
