@@ -63,10 +63,10 @@ form {
 }
 
 .header {
-  padding-top: 0rem;
-  padding-left: 0rem;
-  padding-right: 0rem;
-  padding-bottom: 0rem;
+  padding-top: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 1rem;
 }
 
 
@@ -76,13 +76,19 @@ form {
   background-color: #968399;
   color: #ffffff;
 
-  border: 2px dashed;
+  border: 2px;
   border-radius: 6px;
   font-size: 1.5rem;
   padding: 1.25rem;
   margin: 0;
+  text-align: center;
 
   box-shadow: 0 0.5em 1em -0.125em #303cc1a1, 0 0 0 1px #306BAC;
+}
+
+header img {
+  width: 75px;
+  height: auto;
 }
 
 #map {
