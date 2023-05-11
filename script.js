@@ -24,7 +24,7 @@ function filterList(list, query) {
 
 function cutRestaurantList(list) {
   console.log("fired cut list");
-  const range = [...Array(5).keys()];
+  const range = [...Array(10).keys()];
   return (newArray = range.map((item) => {
     const index = getRandomInclusive(0, list.length - 1);
     return list[index];
@@ -41,7 +41,6 @@ function initMap() {
   return carto;
 }
 
-
 function markerPlace(array, map) {
   console.log("array for markers", array);
 
@@ -54,10 +53,8 @@ function markerPlace(array, map) {
   array.forEach((item, index) => {
     console.log("markerPlace", item);
     //Adds a marker to the map and blindPopup adds a title to it if you were to click on the marker
-    L.marker([item.latitude, item.longitude])
-      .addTo(map)
-      .bindPopup((title = item.location));
-
+    L.marker([item.latitude, item.longitude]).addTo(map).bindPopup(title=item.location);
+    
     //This code shifts the view of the map to the marker position, I did this because some of the request names don't have a location
     //This will make it easier for people to see which ones do and the positioning
     if (index === 0) {
@@ -71,26 +68,28 @@ function initChart(chart, object) {
   const info = Object.keys(object).map((item) => object[item].length);
 
   return new Chart(chart, {
-    type: 'bar',
+    type: "bar",
     data: {
-      labels: labels,
-      datasets: [{
-        label: '# of Votes',
-        data: info,
-        borderWidth: 1
-      }]
+      labels: 'Breakdown of the Different Borough there are Public Wi-Fi Hotspots',
+      datasets: [
+        {
+          label: "# In Each Borough",
+          data: info,
+          borderWidth: 1,
+        },
+      ],
     },
     options: {
       scales: {
         y: {
-          beginAtZero: true
-        }
-      }
-    }
+          beginAtZero: true,
+        },
+      },
+    },
   });
 }
 
-function changeChart(chart, dataObject) {
+function changeChart(chart, dataObject){
   const labels = Object.keys(dataObject);
   const info = Object.keys(dataObject).map((item) => dataObject[item].length);
   
@@ -104,9 +103,6 @@ function changeChart(chart, dataObject) {
 }
 
 function shapeDataForLineChart(array) {
-  if (!array) {
-    return {};
-  }
   return array.reduce((collection, item) => {
     if (!collection[item.boroname]) {
       collection[item.boroname] = [item];
@@ -119,6 +115,8 @@ function shapeDataForLineChart(array) {
 
 async function mainEvent() {
   const mainForm = document.querySelector(".main_form");
+  const loadDataButton = document.querySelector("#data_load");
+  const clearDataButton = document.querySelector("#data_clear");
   const generateListButton = document.querySelector("#generate");
   const textField = document.querySelector("#resto");
   const chartTarget = document.querySelector("#myChart");
@@ -136,13 +134,33 @@ async function mainEvent() {
     generateListButton.classList.remove("hidden");
   }
 
+
+
   let currentList = [];
+
+  loadDataButton.addEventListener("click", async (submitEvent) => {
+    console.log("Loading data");
+    loadAnimation.style.display = "inline-block";
+
+    const results = await fetch(
+      "https://data.cityofnewyork.us/resource/yjub-udmw.json"
+    );
+
+    const storedList = await results.json();
+    localStorage.setItem("storedData", JSON.stringify(storedList));
+    parsedData = storedList;
+
+    if (parsedData?.length > 0) {
+      generateListButton.classList.remove("hidden");
+    }
+
+    loadAnimation.style.display = "none";
+  });
   
   const shapedData = shapeDataForLineChart(parsedData);
   const myChart = initChart(chartTarget, shapedData);
 
-  generateListButton.addEventListener("click", (submitEvent) => {
-    submitEvent.preventDefault();
+  generateListButton.addEventListener("click", (event) => {
     console.log("generate new list");
     currentList = cutRestaurantList(parsedData);
     console.log(currentList);
@@ -161,12 +179,6 @@ async function mainEvent() {
     const localData = shapeDataForLineChart(filterList(currentList, event.target.value));
     changeChart(myChart, localData);
   });
-/*
-  clearDataButton.addEventListener("click", (event) => {
-    console.log("clear browser data");
-    localStorage.clear();
-    console.log("localStorage Check", localStorage.getItem("storedData"));
-  });*/
 }
 
 document.addEventListener("DOMContentLoaded", async () => mainEvent());

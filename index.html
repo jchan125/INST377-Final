@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Janet Chan's Final Project: Non-Emergency 311 Service Requests for PG County</title>
+  <title>Janet Chan Final Project: Public Wi-Fi Hotspots in NYC</title>
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
     integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
@@ -25,8 +25,9 @@
       <div class="left_section box">
         <h3>Generate List of Public Wi-Fi Hotspot Locations</h3>
         <form action="https://data.cityofnewyork.us/resource/yjub-udmw.json" class="box main_form">
+          <button type="button" id="data_load">Load Data</button>
           <div>
-            <label for="resto">Street Names</label>
+            <label for="resto">Service Request Names</label>
             <input type="text" id="resto" name="resto" />
           </div>
           <div class="buttons">
