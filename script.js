@@ -185,11 +185,11 @@ async function mainEvent() {
     changeChart(myChart, localData);
   });
 
-  clearDataButton.addEventListener("click", (event) => {
+  /*clearDataButton.addEventListener("click", (event) => {
     console.log("clear browser data");
     localStorage.clear();
     console.log("localStorage Check", localStorage.getItem("storedData"));
-  });
+  });*/
 }
 
 document.addEventListener("DOMContentLoaded", async () => mainEvent());
