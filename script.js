@@ -103,6 +103,9 @@ function changeChart(chart, dataObject){
 }
 
 function shapeDataForLineChart(array) {
+  if (!Array.isArray(array)) {
+    return {};
+  }
   return array.reduce((collection, item) => {
     if (!collection[item.boroname]) {
       collection[item.boroname] = [item];
@@ -115,15 +118,13 @@ function shapeDataForLineChart(array) {
 
 async function mainEvent() {
   const mainForm = document.querySelector(".main_form");
-  const loadDataButton = document.querySelector("#data_load");
-  const clearDataButton = document.querySelector("#data_clear");
   const generateListButton = document.querySelector("#generate");
   const textField = document.querySelector("#resto");
   const chartTarget = document.querySelector("#myChart");
 
   const loadAnimation = document.querySelector("#data_load_animation");
   loadAnimation.style.display = "none";
-  generateListButton.classList.add("hidden");
+  //generateListButton.classList.add("hidden");
 
   const carto = initMap();
 
@@ -135,9 +136,8 @@ async function mainEvent() {
   }
 
 
-
   let currentList = [];
-
+/*
   loadDataButton.addEventListener("click", async (submitEvent) => {
     console.log("Loading data");
     loadAnimation.style.display = "inline-block";
@@ -155,8 +155,16 @@ async function mainEvent() {
     }
 
     loadAnimation.style.display = "none";
-  });
-  
+  });*/
+
+  const results = await fetch(
+    "https://data.cityofnewyork.us/resource/yjub-udmw.json"
+  );
+
+  const storedList = await results.json();
+  localStorage.setItem("storedData", JSON.stringify(storedList));
+  parsedData = storedList;
+
   const shapedData = shapeDataForLineChart(parsedData);
   const myChart = initChart(chartTarget, shapedData);
 
