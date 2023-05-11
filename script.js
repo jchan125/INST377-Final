@@ -75,7 +75,7 @@ function initChart(chart, object) {
     data: {
       labels: labels,
       datasets: [{
-        label: '# in each borough',
+        label: '# of Votes',
         data: info,
         borderWidth: 1
       }]
@@ -116,6 +116,8 @@ function shapeDataForLineChart(array) {
 
 async function mainEvent() {
   const mainForm = document.querySelector(".main_form");
+  const loadDataButton = document.querySelector("#data_load");
+  //const clearDataButton = document.querySelector("#data_clear");
   const generateListButton = document.querySelector("#generate");
   const textField = document.querySelector("#resto");
   const chartTarget = document.querySelector("#myChart");
@@ -134,7 +136,31 @@ async function mainEvent() {
   }
 
   let currentList = [];
-  
+/*
+  loadDataButton.addEventListener("click", async (submitEvent) => {
+    console.log("Loading data");
+    loadAnimation.style.display = "inline-block";
+
+    const results = await fetch(
+      "https://data.cityofnewyork.us/resource/9w7m-hzhe.json"
+    );
+
+    const storedList = await results.json();
+    localStorage.setItem("storedData", JSON.stringify(storedList));
+    parsedData = storedList;
+
+    if (parsedData?.length > 0) {
+      generateListButton.classList.remove("hidden");
+    }
+
+    loadAnimation.style.display = "none";
+    const localData = shapeDataForLineChart(currentList);
+    changeChart(myChart, localData);
+  });*/
+
+  const results = await fetch(
+    "https://data.cityofnewyork.us/resource/9w7m-hzhe.json"
+  );
   const shapedData = shapeDataForLineChart(parsedData);
   const myChart = initChart(chartTarget, shapedData);
 
