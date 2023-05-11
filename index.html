@@ -19,16 +19,14 @@
 <body>
   <div class="wrapper">
     <header class="header">
-      <h1>Janet Chan Final Project: Non-Emergency 311 Service Requests for PG County</h1>
+      <h1>Janet Chan Final Project: Public Wi-Fi Hotspots in NYC</h1>
     </header>
     <div class="container">
       <div class="left_section box">
-        <h3>Generate List of Service Requests</h3>
-        <form action="https://data.princegeorgescountymd.gov/resource/8nyi-qgn7.json" class="box main_form">
-          <button type="button" id="data_load">Load Data</button>
-          <button type="button" id="data_clear">Clear Data</button>
+        <h3>Generate List of Public Wi-Fi Hotspot Locations</h3>
+        <form action="https://data.cityofnewyork.us/resource/9w7m-hzhe.json" class="box main_form">
           <div>
-            <label for="resto">Service Request Names</label>
+            <label for="resto">Street Names</label>
             <input type="text" id="resto" name="resto" />
           </div>
           <div class="buttons">
@@ -37,11 +35,11 @@
         </form>
       </div>
       <div class="right_section box">
-        <h3>Map of Service Request Locations</h3>
+        <h3>Map of Public Wi-Fi Hotspot Locations</h3>
         <div id="map" class="box"></div>
         <div class="box">
           <ol id="restaurant_list">
-            A list of service requests
+            A list of addresses for the public wi-fi hotspot locations
           </ol>
           <div class="lds-ellipsis" id="data_load_animation">
             <div></div>
@@ -51,7 +49,7 @@
           </div>
         </div>
         <div class="chart_container">
-          <h3>Chart of number of service requests that are open and closed</h3>
+          <h3>Breakdown of the Different Boroughs there are Public Wi-Fi Hotspots</h3>
           <canvas id="myChart"></canvas>
         </div>
       </div>

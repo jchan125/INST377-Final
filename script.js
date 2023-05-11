@@ -9,14 +9,14 @@ function injectHTML(list) {
   const target = document.querySelector("#restaurant_list");
   target.innerHTML = "";
   list.forEach((item) => {
-    const str = `<li>${item.request_name}</li>`;
+    const str = `<li>${item.street}</li>`;
     target.innerHTML += str;
   });
 }
 
 function filterList(list, query) {
   return list.filter((item) => {
-    const lowerCaseName = item.request_name.toLowerCase();
+    const lowerCaseName = item.street.toLowerCase();
     const lowerCaseQuery = query.toLowerCase();
     return lowerCaseName.includes(lowerCaseQuery);
   });
@@ -24,7 +24,7 @@ function filterList(list, query) {
 
 function cutRestaurantList(list) {
   console.log("fired cut list");
-  const range = [...Array(15).keys()];
+  const range = [...Array(5).keys()];
   return (newArray = range.map((item) => {
     const index = getRandomInclusive(0, list.length - 1);
     return list[index];
@@ -32,7 +32,7 @@ function cutRestaurantList(list) {
 }
 
 function initMap() {
-  const carto = L.map("map").setView([38.98, -76.93], 13);
+  const carto = L.map("map").setView([40.730610, -73.935424], 9);
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
     attribution:
@@ -40,6 +40,7 @@ function initMap() {
   }).addTo(carto);
   return carto;
 }
+
 
 function markerPlace(array, map) {
   console.log("array for markers", array);
@@ -53,8 +54,10 @@ function markerPlace(array, map) {
   array.forEach((item, index) => {
     console.log("markerPlace", item);
     //Adds a marker to the map and blindPopup adds a title to it if you were to click on the marker
-    L.marker([item.latitude, item.longitude]).addTo(map).bindPopup(title=item.request_name);
-    
+    L.marker([item.latitude, item.longitude])
+      .addTo(map)
+      .bindPopup((title = item.street));
+
     //This code shifts the view of the map to the marker position, I did this because some of the request names don't have a location
     //This will make it easier for people to see which ones do and the positioning
     if (index === 0) {
@@ -63,54 +66,56 @@ function markerPlace(array, map) {
   });
 }
 
-function initChart() {
-  // const labels = ["January", "February", "March", "April", "May", "June"];
+function initChart(chart, object) {
+  const labels = Object.keys(object);
+  const info = Object.keys(object).map((item) => object[item].length);
 
-  // const data = {
-  //   labels: labels,
-  //   datasets: [{
-  //     label: "My first dataset",
-  //     backgroundColor: "rgb(255,99,132)",
-  //     borderColor: "rgb(255,99,132)",
-  //     data: [0, 10, 5, 2, 20, 30, 45],
-  //   }]
-  // };
-
-  // const config = {
-  //   type: "line",
-  //   data: data,
-  //   options: {},
-  // };
-
-  // return new Chart(chart, config);
-  const ctx = document.getElementById("myChart");
-
-  new Chart(ctx, {
-    type: "bar",
+  return new Chart(chart, {
+    type: 'bar',
     data: {
-      labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-      datasets: [
-        {
-          label: "# of Votes",
-          data: [12, 19, 3, 5, 2, 3],
-          borderWidth: 1,
-        },
-      ],
+      labels: labels,
+      datasets: [{
+        label: '# of Votes',
+        data: info,
+        borderWidth: 1
+      }]
     },
     options: {
       scales: {
         y: {
-          beginAtZero: true,
-        },
-      },
-    },
+          beginAtZero: true
+        }
+      }
+    }
   });
+}
+
+function changeChart(chart, dataObject) {
+  const labels = Object.keys(dataObject);
+  const info = Object.keys(dataObject).map((item) => dataObject[item].length);
+  
+  chart.data.labels = labels;
+  chart.data.datasets.forEach((set) => {
+    set.data = info;
+    return set;
+  });
+
+  chart.update();
+}
+
+function shapeDataForLineChart(array) {
+  return array.reduce((collection, item) => {
+    if (!collection[item.boro]) {
+      collection[item.boro] = [item];
+    } else {
+      collection[item.boro].push(item);
+    }
+    return collection;
+  }, {});
 }
 
 async function mainEvent() {
   const mainForm = document.querySelector(".main_form");
-  const loadDataButton = document.querySelector("#data_load");
-  const clearDataButton = document.querySelector("#data_clear");
   const generateListButton = document.querySelector("#generate");
   const textField = document.querySelector("#resto");
   const chartTarget = document.querySelector("#myChart");
@@ -123,41 +128,25 @@ async function mainEvent() {
 
   const storedData = localStorage.getItem("storedData");
 
-  initChart(chartTarget);
-
   let parsedData = JSON.parse(storedData);
   if (parsedData?.length > 0) {
     generateListButton.classList.remove("hidden");
   }
 
   let currentList = [];
+  
+  const shapedData = shapeDataForLineChart(parsedData);
+  const myChart = initChart(chartTarget, shapedData);
 
-  loadDataButton.addEventListener("click", async (submitEvent) => {
-    console.log("Loading data");
-    loadAnimation.style.display = "inline-block";
-
-    const results = await fetch(
-      "https://data.princegeorgescountymd.gov/resource/8nyi-qgn7.json"
-    );
-
-    const storedList = await results.json();
-    localStorage.setItem("storedData", JSON.stringify(storedList));
-    parsedData = storedList;
-
-    if (parsedData?.length > 0) {
-      generateListButton.classList.remove("hidden");
-    }
-
-    loadAnimation.style.display = "none";
-    //console.table(storedList);
-  });
-
-  generateListButton.addEventListener("click", (event) => {
+  generateListButton.addEventListener("click", (submitEvent) => {
+    submitEvent.preventDefault();
     console.log("generate new list");
     currentList = cutRestaurantList(parsedData);
     console.log(currentList);
     injectHTML(currentList);
     markerPlace(currentList, carto);
+    const localData = shapeDataForLineChart(currentList);
+    changeChart(myChart, localData);
   });
 
   textField.addEventListener("input", (event) => {
@@ -166,6 +155,8 @@ async function mainEvent() {
     console.log(newList);
     injectHTML(newList);
     markerPlace(newList, carto);
+    const localData = shapeDataForLineChart(filterList(currentList, event.target.value));
+    changeChart(myChart, localData);
   });
 
   clearDataButton.addEventListener("click", (event) => {
