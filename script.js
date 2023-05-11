@@ -75,7 +75,7 @@ function initChart(chart, object) {
     data: {
       labels: labels,
       datasets: [{
-        label: '# of Votes',
+        label: '# in each borough',
         data: info,
         borderWidth: 1
       }]
