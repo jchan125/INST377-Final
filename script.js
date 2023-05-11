@@ -9,14 +9,14 @@ function injectHTML(list) {
   const target = document.querySelector("#restaurant_list");
   target.innerHTML = "";
   list.forEach((item) => {
-    const str = `<li>${item.street}</li>`;
+    const str = `<li>${item.location}</li>`;
     target.innerHTML += str;
   });
 }
 
 function filterList(list, query) {
   return list.filter((item) => {
-    const lowerCaseName = item.street.toLowerCase();
+    const lowerCaseName = item.location.toLowerCase();
     const lowerCaseQuery = query.toLowerCase();
     return lowerCaseName.includes(lowerCaseQuery);
   });
@@ -56,7 +56,7 @@ function markerPlace(array, map) {
     //Adds a marker to the map and blindPopup adds a title to it if you were to click on the marker
     L.marker([item.latitude, item.longitude])
       .addTo(map)
-      .bindPopup((title = item.street));
+      .bindPopup((title = item.location));
 
     //This code shifts the view of the map to the marker position, I did this because some of the request names don't have a location
     //This will make it easier for people to see which ones do and the positioning
@@ -75,7 +75,7 @@ function initChart(chart, object) {
     data: {
       labels: labels,
       datasets: [{
-        label: '# in each borough',
+        label: '# of Votes',
         data: info,
         borderWidth: 1
       }]
@@ -105,10 +105,10 @@ function changeChart(chart, dataObject) {
 
 function shapeDataForLineChart(array) {
   return array.reduce((collection, item) => {
-    if (!collection[item.boro]) {
-      collection[item.boro] = [item];
+    if (!collection[item.boroname]) {
+      collection[item.boroname] = [item];
     } else {
-      collection[item.boro].push(item);
+      collection[item.boroname].push(item);
     }
     return collection;
   }, {});
@@ -116,8 +116,6 @@ function shapeDataForLineChart(array) {
 
 async function mainEvent() {
   const mainForm = document.querySelector(".main_form");
-  const loadDataButton = document.querySelector("#data_load");
-  //const clearDataButton = document.querySelector("#data_clear");
   const generateListButton = document.querySelector("#generate");
   const textField = document.querySelector("#resto");
   const chartTarget = document.querySelector("#myChart");
@@ -136,31 +134,7 @@ async function mainEvent() {
   }
 
   let currentList = [];
-
-  loadDataButton.addEventListener("click", async (submitEvent) => {
-    console.log("Loading data");
-    loadAnimation.style.display = "inline-block";
-
-    const results = await fetch(
-      "https://data.cityofnewyork.us/resource/9w7m-hzhe.json"
-    );
-
-    const storedList = await results.json();
-    localStorage.setItem("storedData", JSON.stringify(storedList));
-    parsedData = storedList;
-
-    if (parsedData?.length > 0) {
-      generateListButton.classList.remove("hidden");
-    }
-
-    loadAnimation.style.display = "none";
-    const localData = shapeDataForLineChart(currentList);
-    changeChart(myChart, localData);
-  });
-
-  const results = await fetch(
-    "https://data.cityofnewyork.us/resource/9w7m-hzhe.json"
-  );
+  
   const shapedData = shapeDataForLineChart(parsedData);
   const myChart = initChart(chartTarget, shapedData);
 
