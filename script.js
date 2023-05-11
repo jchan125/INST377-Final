@@ -70,7 +70,7 @@ function initChart(chart, object) {
   return new Chart(chart, {
     type: "bar",
     data: {
-      labels: 'Breakdown of the Different Borough there are Public Wi-Fi Hotspots',
+      labels: labels,
       datasets: [
         {
           label: "# In Each Borough",
