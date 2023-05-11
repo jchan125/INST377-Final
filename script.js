@@ -136,7 +136,7 @@ async function mainEvent() {
   }
 
   let currentList = [];
-/*
+
   loadDataButton.addEventListener("click", async (submitEvent) => {
     console.log("Loading data");
     loadAnimation.style.display = "inline-block";
@@ -156,7 +156,7 @@ async function mainEvent() {
     loadAnimation.style.display = "none";
     const localData = shapeDataForLineChart(currentList);
     changeChart(myChart, localData);
-  });*/
+  });
 
   const results = await fetch(
     "https://data.cityofnewyork.us/resource/9w7m-hzhe.json"
@@ -185,11 +185,11 @@ async function mainEvent() {
     changeChart(myChart, localData);
   });
 
-  /*clearDataButton.addEventListener("click", (event) => {
+  clearDataButton.addEventListener("click", (event) => {
     console.log("clear browser data");
     localStorage.clear();
     console.log("localStorage Check", localStorage.getItem("storedData"));
-  });*/
+  });
 }
 
 document.addEventListener("DOMContentLoaded", async () => mainEvent());
