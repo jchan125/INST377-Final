@@ -91,6 +91,17 @@ header img {
   height: auto;
 }
 
+.header a {
+  text-decoration: underline;
+  color: rgb(64, 87, 163);
+}
+
+.header a:hover {
+  background-color: hsla(0, 0%, 93%, 0.114);
+  color: rgb(85, 126, 136);
+  text-decoration: none;
+}
+
 #map {
   width: 400px;
   height: 380px;
@@ -99,7 +110,7 @@ header img {
 
 .box {
   background-color: #7f9bb9;
-  border: 2px dashed;
+  border: 2px solid #000000;
   border-radius: 4px;
 
   width: fit-content;
@@ -139,23 +150,24 @@ header img {
 }
 
 .footer {
-  border: 2px dashed;
+  border: 2px solid #000000;
   border-radius: 4px;
   flex-shrink: 0;
   padding: 1rem;
   background-color: rgba(84, 124, 212, 0.8);
   font-size: 1.2rem;
   font-weight: 600;
+  text-align: center;
 }
 
 .footer a {
-  color: rgb(174, 35, 35);
+  color: rgb(243, 245, 249);
   text-decoration: underline;
 }
 
 
 .footer a:hover {
-  background-color: hsla(218, 19%, 52%, 0.114);
+  background-color: hsla(0, 0%, 93%, 0.114);
   color: rgb(85, 126, 136);
   text-decoration: none;
 }
