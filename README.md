@@ -1,4 +1,20 @@
 # Final Project for INST377
 
-Hi, this is Janet Chan and my project uses Prince George’s County Open Data, specifically the Finance portion for the year 2022. I chose this data because I’m really curious as to what resources have been allocated to what department in Prince George’s County. I’m also very interested in seeing what kinds of departments get more money than others and interpreting that data as to why they might
-get more money. The information problem that I’m hoping to examine is which department in Prince George’s County needs more resources or needs more attention in order to improve.
+Public Wi-Fi Hotspots in NYC
+
+Link to Github Pages: 
+https://jchan125.github.io/INST377-Final/
+
+By: Janet Chan
+
+The target browsers are desktop browsers, such as Google Chrome and Safari. These are the browsers that I have tested with and are the ones that I have ensured work with my site.
+
+I used the NYC Wi-Fi Hotspot Locations API: https://data.cityofnewyork.us/City-Government/NYC-Wi-Fi-Hotspot-Locations/yjub-udmw
+
+The visualizations that my project utilizes are a map that shows the location of each hotspot location and a barchart of the distribution of the hotspot in each borough.
+
+My project utilizes Leaflet for a map and Chart.js for a barchart.
+
+Although I created my own CSS layout, I utilized Flexbox and the latest version is CSS3.
+
+My project aims to display the different free Wi-Fi hotspots around New York City. The problem it aims to solve is the problem of the lack of accessible access to a reliable internet connection. It displays the amount of Wi-Fi hotspots to help those who want to find a free Wi-Fi hotspot. In addition, the bargraph helps visualize which areas of New York City has the most Wi-Fi hotspots available and which places could use more.
