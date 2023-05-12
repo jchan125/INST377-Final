@@ -6,7 +6,7 @@ function getRandomInclusive(min, max) {
 
 function injectHTML(list) {
   console.log("fired injectHTML");
-  const target = document.querySelector("#restaurant_list");
+  const target = document.querySelector("#wifi_list");
   target.innerHTML = "";
   list.forEach((item) => {
     const str = `<li>${item.location}</li>`;
@@ -119,13 +119,11 @@ function shapeDataForLineChart(array) {
 async function mainEvent() {
   const mainForm = document.querySelector(".main_form");
   const generateListButton = document.querySelector("#generate");
-  const textField = document.querySelector("#resto");
+  const textField = document.querySelector("#wifi");
   const chartTarget = document.querySelector("#myChart");
 
   const loadAnimation = document.querySelector("#data_load_animation");
   loadAnimation.style.display = "none";
-  //generateListButton.classList.add("hidden");
-
   const carto = initMap();
 
   const storedData = localStorage.getItem("storedData");
@@ -137,25 +135,6 @@ async function mainEvent() {
 
 
   let currentList = [];
-/*
-  loadDataButton.addEventListener("click", async (submitEvent) => {
-    console.log("Loading data");
-    loadAnimation.style.display = "inline-block";
-
-    const results = await fetch(
-      "https://data.cityofnewyork.us/resource/yjub-udmw.json"
-    );
-
-    const storedList = await results.json();
-    localStorage.setItem("storedData", JSON.stringify(storedList));
-    parsedData = storedList;
-
-    if (parsedData?.length > 0) {
-      generateListButton.classList.remove("hidden");
-    }
-
-    loadAnimation.style.display = "none";
-  });*/
 
   const results = await fetch(
     "https://data.cityofnewyork.us/resource/yjub-udmw.json"
